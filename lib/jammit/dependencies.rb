@@ -28,3 +28,5 @@ if Rails.env.development?
     append_before_filter { Jammit.reload! }
   end
 end
+# Include the Jammit asset helpers in all views, a-la ApplicationHelper.
+ActionView::Base.send(:include, JammitHelper)

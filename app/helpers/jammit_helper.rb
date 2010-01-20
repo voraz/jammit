@@ -1,10 +1,9 @@
-module Jammit
+module JammitHelper
 
   # The Jammit::Helper module, which is made available to every view, provides
   # helpers for writing out HTML tags for asset packages. In development you
   # get the ordered list of source files -- in any other environment, a link
   # to the cached packages.
-  module Helper
 
     DATA_URI_START = "<!--[if (!IE)|(gte IE 8)]><!-->"
     DATA_URI_END   = "<!--<![endif]-->"
@@ -68,9 +67,5 @@ module Jammit
       stylesheet_link_tag(*packages)
     end
 
-  end
 
 end
-
-# Include the Jammit asset helpers in all views, a-la ApplicationHelper.
-::ActionView::Base.send(:include, Jammit::Helper)
