@@ -1,9 +1,8 @@
-module Jammit
 
   # The JammitController is added to your Rails application when the Gem is
   # loaded. It takes responsibility for /assets, and dynamically packages any
   # missing or uncached asset packages.
-  class Controller < ActionController::Base
+  class JammitController < ActionController::Base
 
     VALID_FORMATS   = [:css, :js, :jst]
 
@@ -79,13 +78,4 @@ module Jammit
 
   end
 
-end
 
-# Make the Jammit::Controller available to Rails as a top-level controller.
-::JammitController = Jammit::Controller
-
-if Rails.env.development?
-  ActionController::Base.class_eval do
-    append_before_filter { Jammit.reload! }
-  end
-end
