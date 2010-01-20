@@ -4,10 +4,10 @@
 # missing or uncached asset packages.
 class JammitController < ActionController::Base
   VALID_FORMATS   = [:css, :js, :jst]
-  # 
-  # SUFFIX_STRIPPER = /-(datauri|mhtml)\Z/
-  # 
-  # NOT_FOUND_PATH  = "#{PUBLIC_ROOT}/404.html"
+  
+  SUFFIX_STRIPPER = /-(datauri|mhtml)\Z/
+  
+  NOT_FOUND_PATH  = "#{PUBLIC_ROOT}/404.html"
   
   # The "package" action receives all requests for asset packages that haven't
   # yet been cached. The package will be built, cached, and gzipped.
