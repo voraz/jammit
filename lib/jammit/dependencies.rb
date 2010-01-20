@@ -6,7 +6,7 @@ require 'pathname'
 require 'fileutils'
 
 # Gem Dependencies:
-require 'rubygems'
+# require 'rubygems'
 require 'yui/compressor'
 require 'closure-compiler'
 require 'active_support'
