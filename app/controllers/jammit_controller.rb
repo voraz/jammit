@@ -2,25 +2,26 @@
 # loaded. It takes responsibility for /assets, and dynamically packages any
 # missing or uncached asset packages.
 class JammitController < ActionController::Base
-  VALID_FORMATS = [:css, :js, :jst]
+  VALID_FORMATS   = [:css, :js, :jst]
 
   SUFFIX_STRIPPER = /-(datauri|mhtml)\Z/
 
-  NOT_FOUND_PATH = "#{Rails.public_path}/404.html"
+  NOT_FOUND_PATH  = "#{Rails.public_path}/404.html"
 
   # The "package" action receives all requests for asset packages that haven't
   # yet been cached. The package will be built, cached, and gzipped.
   def package
     parse_request
     case @extension
-    when :js then render :js => (@contents = Jammit.packager.pack_javascripts(@package))
+    when :js  then render :js   => (@contents = Jammit.packager.pack_javascripts(@package))
     when :css then render :text => generate_stylesheets, :content_type => 'text/css'
-    when :jst then render :js => (@contents = Jammit.packager.pack_templates(@package))
+    when :jst then render :js   => (@contents = Jammit.packager.pack_templates(@package))
     end
     cache_package if perform_caching
   rescue Jammit::PackageNotFound
     package_not_found
   end
+
 
   private
 
@@ -45,18 +46,18 @@ class JammitController < ActionController::Base
   # URL swapped in.
   def generate_stylesheets
     return @contents = Jammit.packager.pack_stylesheets(@package, @variant) unless @variant == :mhtml
-    @mtime = Time.now
+    @mtime      = Time.now
     request_url = prefix_url(request.request_uri)
-    cached_url = prefix_url(Jammit.asset_url(@package, @extension, @variant, @mtime))
-    css = Jammit.packager.pack_stylesheets(@package, @variant, request_url)
-    @contents = css.gsub(request_url, cached_url) if perform_caching
+    cached_url  = prefix_url(Jammit.asset_url(@package, @extension, @variant, @mtime))
+    css         = Jammit.packager.pack_stylesheets(@package, @variant, request_url)
+    @contents   = css.gsub(request_url, cached_url) if perform_caching
     css
   end
 
   # Extracts the package name, extension (:css, :js, :jst), and variant
   # (:datauri, :mhtml) from the incoming URL.
   def parse_request
-    pack = params[:package]
+    pack       = params[:package]
     @extension = params[:extension].to_sym
     raise PackageNotFound unless VALID_FORMATS.include?(@extension)
     if Jammit.embed_assets
