@@ -5,10 +5,10 @@
 # to the cached packages.
 module JammitHelper
 
-  DATA_URI_START = "<!--[if (!IE)|(gte IE 8)]><!-->"
-  DATA_URI_END   = "<!--<![endif]-->"
-  MHTML_START    = "<!--[if lte IE 7]>"
-  MHTML_END      = "<![endif]-->"
+  DATA_URI_START = "<!--[if (!IE)|(gte IE 8)]><!-->" unless defined? DATA_URI_START
+  DATA_URI_END   = "<!--<![endif]-->" unless defined? DATA_URI_END
+  MHTML_START    = "<!--[if lte IE 7]>" unless defined? MHTML_START
+  MHTML_END      = "<![endif]-->" unless defined? MHTML_END
 
   # If embed_assets is turned on, writes out links to the Data-URI and MHTML
   # versions of the stylesheet package, otherwise the package is regular
@@ -67,3 +67,4 @@ module JammitHelper
     stylesheet_link_tag(*packages)
   end
 end
+

@@ -4,11 +4,12 @@
 # missing or uncached asset packages.
 class JammitController < ActionController::Base
   VALID_FORMATS   = [:css, :js, :jst]
-  
+
   SUFFIX_STRIPPER = /-(datauri|mhtml)\Z/
-  
-  NOT_FOUND_PATH  = "#{PUBLIC_ROOT}/404.html"
-  
+
+  #NOT_FOUND_PATH  = "#{PUBLIC_ROOT}/404.html"
+  NOT_FOUND_PATH  = "#{Rails.public_path}/404.html"
+
   # The "package" action receives all requests for asset packages that haven't
   # yet been cached. The package will be built, cached, and gzipped.
   def package
@@ -22,10 +23,10 @@ class JammitController < ActionController::Base
   rescue Jammit::PackageNotFound
     package_not_found
   end
-  
-  
+
+
   private
-  
+
   # Tells the Jammit::Packager to cache and gzip an asset package. We can't
   # just use the built-in "cache_page" because we need to ensure that
   # the timestamp that ends up in the MHTML is also on the cached file.
@@ -33,7 +34,7 @@ class JammitController < ActionController::Base
     dir = File.join(page_cache_directory, Jammit.package_path)
     Jammit.packager.cache(@package, @extension, @contents, dir, @variant, @mtime)
   end
-  
+
   # Generate the complete, timestamped, MHTML url -- if we're rendering a
   # dynamic MHTML package, we'll need to put one URL in the response, and a
   # different one into the cached package.
@@ -41,7 +42,7 @@ class JammitController < ActionController::Base
     host = request.port == 80 ? request.host : request.host_with_port
     "#{request.protocol}#{host}#{path}"
   end
-  
+
   # If we're generating MHTML/CSS, return a stylesheet with the absolute
   # request URL to the client, and cache a version with the timestamped cache
   # URL swapped in.
@@ -54,7 +55,7 @@ class JammitController < ActionController::Base
     @contents   = css.gsub(request_url, cached_url) if perform_caching
     css
   end
-  
+
   # Extracts the package name, extension (:css, :js, :jst), and variant
   # (:datauri, :mhtml) from the incoming URL.
   def parse_request
@@ -68,7 +69,7 @@ class JammitController < ActionController::Base
     end
     @package = pack.to_sym
   end
-  
+
   # Render the 404 page, if one exists, for any packages that don't.
   def package_not_found
     return render(:file => NOT_FOUND_PATH, :status => 404) if File.exists?(NOT_FOUND_PATH)
@@ -76,3 +77,4 @@ class JammitController < ActionController::Base
   end
 
 end
+
