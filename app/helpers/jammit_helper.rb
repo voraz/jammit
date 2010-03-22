@@ -1,4 +1,3 @@
-
 # The Jammit::Helper module, which is made available to every view, provides
 # helpers for writing out HTML tags for asset packages. In development you
 # get the ordered list of source files -- in any other environment, a link

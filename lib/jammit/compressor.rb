@@ -195,3 +195,4 @@ module Jammit
   end
 
 end
+

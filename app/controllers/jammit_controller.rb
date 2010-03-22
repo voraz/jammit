@@ -1,4 +1,3 @@
-
 # The JammitController is added to your Rails application when the Gem is
 # loaded. It takes responsibility for /assets, and dynamically packages any
 # missing or uncached asset packages.
